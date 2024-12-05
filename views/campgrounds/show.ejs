@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= findCamp.title %></title>
+  </head>
+  <body>
+    <h1>Here is the campground you are looking for:</h1>
+    <h2><%= findCamp.title %></h2>
+    <h3><%= findCamp.location %></h3>
+
+    <button><a href="/campgrounds/<%= findCamp.id  %>/edit">Edit</a></button>
+    <button><a href="/campgrounds">Go Back</a></button>
+    <form
+      action="/campgrounds/<%= findCamp.id  %>?_method=DELETE"
+      method="post"
+    >
+      <button>Delete</button>
+    </form>
+  </body>
+</html>

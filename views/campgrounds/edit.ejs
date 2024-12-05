@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Campground</title>
+  </head>
+  <body>
+    <h1>Edit Campground</h1>
+    <form action="/campgrounds/<%= findCamp.id %>?_method=PUT" method="post">
+      <input type="text" name="title" id="title" value="<%= findCamp.title  %>"/>
+
+      <input type="text" name="price" id="price" value="<%= findCamp.price  %>"/>
+
+      <textarea rows="1" name="description" id="description"/><%= findCamp.description  %> </textarea>
+
+      <input type="text" name="location" id="location" value="<%= findCamp.location  %>"/>
+      <button>Save</button>
+      <button><a href="/campgrounds">Go Back</a></button>
+    </form>
+  </body>
+</html>
