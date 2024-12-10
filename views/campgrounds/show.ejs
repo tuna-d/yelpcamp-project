@@ -1,22 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= findCamp.title %></title>
-  </head>
-  <body>
-    <h1>Here is the campground you are looking for:</h1>
-    <h2><%= findCamp.title %></h2>
-    <h3><%= findCamp.location %></h3>
-
-    <button><a href="/campgrounds/<%= findCamp.id  %>/edit">Edit</a></button>
-    <button><a href="/campgrounds">Go Back</a></button>
-    <form
-      action="/campgrounds/<%= findCamp.id  %>?_method=DELETE"
-      method="post"
-    >
-      <button>Delete</button>
-    </form>
-  </body>
-</html>
+<% layout("layouts/boilerplate") %>
+<body>
+  <div class="row">
+    <div class="col-6 offset-3">
+      <div class="card">
+        <img src="<%= findCamp.image  %>" alt="campground image" />
+        <div class="card-body">
+          <h5 class="card-title"><%= findCamp.title %></h5>
+          <p class="card-text"><%= findCamp.description %></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><%= findCamp.location %></li>
+          <li class="list-group-item">$<%= findCamp.price %>/night</li>
+        </ul>
+        <div class="card-body">
+          <a
+            href="/campgrounds/<%= findCamp.id  %>/edit"
+            class="card-link btn btn-info text-white"
+            >Edit</a
+          >
+          <form
+            action="/campgrounds/<%= findCamp.id  %>?_method=DELETE"
+            method="post"
+            class="d-inline"
+          >
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

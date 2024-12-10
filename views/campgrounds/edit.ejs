@@ -1,22 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Campground</title>
-  </head>
-  <body>
-    <h1>Edit Campground</h1>
-    <form action="/campgrounds/<%= findCamp.id %>?_method=PUT" method="post">
-      <input type="text" name="title" id="title" value="<%= findCamp.title  %>"/>
+<% layout("layouts/boilerplate") %>
+<body>
+  <div class="row">
+    <h1 class="text-center">Edit Campground</h1>
+    <div class="col-6 offset-3">
+      <form action="/campgrounds/<%= findCamp.id %>?_method=PUT" method="post">
+        <div class="mb-3">
+          <label class="form-label" for="title"
+            >Edit the name of campground:</label
+          >
+          <input
+            class="form-control"
+            type="text"
+            name="title"
+            id="title"
+            value="<%= findCamp.title %>"
+          />
+        </div>
 
-      <input type="text" name="price" id="price" value="<%= findCamp.price  %>"/>
+        <div class="mb-3">
+          <label class="form-label" for="description"
+            >Edit the description of campground:</label
+          >
+          <textarea class="form-control" name="description" id="description">
+<%= findCamp.description  %></textarea
+          >
+        </div>
 
-      <textarea rows="1" name="description" id="description"/><%= findCamp.description  %> </textarea>
+        <div class="mb-3">
+          <label class="mb-1" for="price">Edit the price of campground:</label>
+          <div class="input-group">
+            <span class="input-group-text" id="price">$</span>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="0.00"
+              aria-label="price"
+              aria-describedby="basic-addon1"
+              id="price"
+              name="price"
+              value="<%= findCamp.price  %>"
+            />
+          </div>
+        </div>
 
-      <input type="text" name="location" id="location" value="<%= findCamp.location  %>"/>
-      <button>Save</button>
-      <button><a href="/campgrounds">Go Back</a></button>
-    </form>
-  </body>
-</html>
+        <div class="mb-3">
+          <label class="form-label" for="location"
+            >Edit the location of campground:</label
+          >
+          <input
+            class="form-control"
+            type="text"
+            name="location"
+            id="location"
+            value="<%= findCamp.location  %>"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="image"
+            >Edit the image url of campground:</label
+          >
+          <input
+            class="form-control"
+            type="text"
+            name="image"
+            id="image"
+            value="<%= findCamp.image  %>"
+          />
+        </div>
+        <button class="btn btn-info mb-3">Update</button>
+      </form>
+    </div>
+  </div>
+</body>

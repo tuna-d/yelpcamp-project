@@ -1,25 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Campground</title>
-  </head>
-  <body>
-    <h1>Add New Campground</h1>
-    <form action="/campgrounds" method="post">
-      <label for="title">Enter the name of new campground:</label>
-      <input type="text" name="title" id="title" />
+<% layout("layouts/boilerplate") %>
+<body>
+  <div class="row">
+    <h1 class="text-center">Add New Campground</h1>
+    <div class="col-6 offset-3">
+      <form action="/campgrounds" method="post">
+        <div class="mb-3">
+          <label class="form-label" for="title"
+            >Enter the name of new campground:</label
+          >
+          <input class="form-control" type="text" name="title" id="title" />
+        </div>
 
-      <label for="price">Enter the price of new campground:</label>
-      <input type="text" name="price" id="price" />
+        <div class="mb-3">
+          <label class="form-label" for="description"
+            >Enter a description for new campground:</label
+          >
+          <textarea
+            class="form-control"
+            name="description"
+            id="description"
+          ></textarea>
+        </div>
 
-      <label for="description">Enter a description of new campground:</label>
-      <textarea name="description" id="description" rows="1"></textarea>
-      <label for="location">Enter the location of new campground:</label>
-      <input type="text" name="location" id="location" />
-      <button>Save</button>
-      <button><a href="/campgrounds">Go Back</a></button>
-    </form>
-  </body>
-</html>
+        <div class="mb-3">
+          <label class="mb-1" for="price"
+            >Enter the price of new campground:</label
+          >
+          <div class="input-group">
+            <span class="input-group-text" id="price">$</span>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="0.00"
+              aria-label="price"
+              aria-describedby="basic-addon1"
+              id="price"
+              name="price"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="location"
+            >Enter the location of new campground:</label
+          >
+          <input
+            class="form-control"
+            type="text"
+            name="location"
+            id="location"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="image"
+            >Enter the image url of new campground:</label
+          >
+          <input class="form-control" type="text" name="image" id="image" />
+        </div>
+        <button class="btn btn-success mb-3">Save</button>
+      </form>
+    </div>
+  </div>
+</body>
