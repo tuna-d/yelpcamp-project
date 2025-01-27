@@ -1,74 +1,93 @@
 <% layout("layouts/boilerplate") %>
-<body>
-  <div class="row">
-    <h1 class="text-center">Edit Campground</h1>
-    <div class="col-6 offset-3">
-      <form action="/campgrounds/<%= findCamp.id %>?_method=PUT" method="post">
-        <div class="mb-3">
-          <label class="form-label" for="title"
-            >Edit the name of campground:</label
-          >
-          <input
-            class="form-control"
-            type="text"
-            name="title"
-            id="title"
-            value="<%= findCamp.title %>"
-          />
-        </div>
+<div class="row">
+  <h1 class="text-center">Edit Campground</h1>
+  <div class="col-6 offset-3">
+    <form
+      action="/campgrounds/<%= findCamp.id %>?_method=PUT"
+      method="post"
+      novalidate
+      class="needs-validation"
+    >
+      <div class="mb-3">
+        <label class="form-label" for="title"
+          >Edit the name of campground:</label
+        >
+        <input
+          class="form-control"
+          type="text"
+          name="campground[title]"
+          id="title"
+          value="<%= findCamp.title %>"
+          required
+        />
+        <div class="invalid-feedback">Campground name is required!</div>
+      </div>
 
-        <div class="mb-3">
-          <label class="form-label" for="description"
-            >Edit the description of campground:</label
-          >
-          <textarea class="form-control" name="description" id="description">
+      <div class="mb-3">
+        <label class="form-label" for="description"
+          >Edit the description of campground:</label
+        >
+        <textarea
+          class="form-control"
+          name="campground[description]"
+          id="description"
+          required
+        >
 <%= findCamp.description  %></textarea
-          >
+        >
+        <div class="invalid-feedback">
+          Description for new campground name is required!
         </div>
+      </div>
 
-        <div class="mb-3">
-          <label class="mb-1" for="price">Edit the price of campground:</label>
-          <div class="input-group">
-            <span class="input-group-text" id="price">$</span>
-            <input
-              type="number"
-              class="form-control"
-              placeholder="0.00"
-              aria-label="price"
-              aria-describedby="basic-addon1"
-              id="price"
-              name="price"
-              value="<%= findCamp.price  %>"
-            />
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="location"
-            >Edit the location of campground:</label
-          >
+      <div class="mb-3">
+        <label class="mb-1" for="price">Edit the price of campground:</label>
+        <div class="input-group">
+          <span class="input-group-text" id="price">$</span>
           <input
+            type="number"
             class="form-control"
-            type="text"
-            name="location"
-            id="location"
-            value="<%= findCamp.location  %>"
+            placeholder="0.00"
+            aria-label="price"
+            aria-describedby="basic-addon1"
+            id="price"
+            name="campground[price]"
+            value="<%= findCamp.price  %>"
+            required
           />
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="image"
-            >Edit the image url of campground:</label
-          >
-          <input
-            class="form-control"
-            type="text"
-            name="image"
-            id="image"
-            value="<%= findCamp.image  %>"
-          />
-        </div>
-        <button class="btn btn-info mb-3">Update</button>
-      </form>
-    </div>
+        <div class="invalid-feedback">Campground price is required!</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="location"
+          >Edit the location of campground:</label
+        >
+        <input
+          class="form-control"
+          type="text"
+          name="campground[location]"
+          id="location"
+          value="<%= findCamp.location  %>"
+          required
+        />
+        <div class="invalid-feedback">Campground location is required!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image"
+          >Edit the image url of campground:</label
+        >
+        <input
+          class="form-control"
+          type="text"
+          name="campground[image]"
+          id="image"
+          value="<%= findCamp.image  %>"
+          required
+        />
+        <div class="invalid-feedback">Campground image is required!</div>
+      </div>
+      <button class="btn btn-info mb-3 text-light">Update</button>
+    </form>
   </div>
-</body>
+</div>

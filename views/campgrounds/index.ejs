@@ -1,27 +1,28 @@
 <% layout("layouts/boilerplate") %>
-<body>
-  <h1>All Campgrounds</h1>
-  <% for(let camp of campgrounds) {%>
 
-  <div class="card mb-3">
-    <div class="row">
-      <div class="col-md-4">
-        <img src="<%= camp.image  %>" alt="" class="img-fluid" />
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title"><%= camp.title %></h5>
-          <p class="card-text"><%= camp.description %></p>
-          <p class="card-text">
-            <small class="text-body-secondary"><%= camp.location %></small>
-          </p>
-          <a href="/campgrounds/<%= camp.id %>" class="btn btn-outline-primary"
-            >View Details</a
-          >
-        </div>
+<h1>All Campgrounds</h1>
+<% for(let camp of campgrounds) {%>
+
+<div class="card mb-3">
+  <div class="row">
+    <div class="col-md-4">
+      <img src="<%= camp.image  %>" alt="" class="img-fluid" />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= camp.title %></h5>
+        <p class="card-text"><%= camp.description %></p>
+        <p class="card-text">
+          <small class="text-body-secondary"><%= camp.location %></small>
+        </p>
+        <a href="/campgrounds/<%= camp.id %>" class="btn btn-outline-primary"
+          >View Details</a
+        >
       </div>
     </div>
   </div>
-  <% } %>
-  <button><a href="/campgrounds/new">Add New</a></button>
-</body>
+</div>
+<% } %>
+<button class="btn btn-success mb-3">
+  <a href="/campgrounds/new" class="text-light text-decoration-none">Add New</a>
+</button>
