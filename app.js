@@ -6,6 +6,7 @@ const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
 const catchAsync = require("./utils/catchAsync")
 const ExpressError = require("./utils/ExpressError")
+const { campgroundSchema } = require("./validationSchemas")
 const mongoose = require("mongoose")
 const Campground = require("./models/campground")
 
@@ -30,6 +31,16 @@ app.use(methodOverride("_method"))
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
 })
+
+const validateCampground = (req, res, next) => {
+  const { error } = campgroundSchema.validate(req.body)
+  if (error) {
+    const errMsg = error.details.map((err) => err.message).join(",")
+    throw new ExpressError(errMsg, 400)
+  } else {
+    next()
+  }
+}
 
 app.get("/", (req, res) => {
   res.render("home")
@@ -67,17 +78,20 @@ app.get(
 
 app.post(
   "/campgrounds",
+  validateCampground,
   catchAsync(async (req, res, next) => {
-    await new Campground({
+    const campground = new Campground({
       ...req.body.campground,
-    }).save()
+    })
+    await campground.save()
 
-    res.redirect("/campgrounds")
+    res.redirect(`/campgrounds/${campground.id}`)
   })
 )
 
 app.put(
   "/campgrounds/:id",
+  validateCampground,
   catchAsync(async (req, res) => {
     const { id } = req.params
     await Campground.findByIdAndUpdate(
