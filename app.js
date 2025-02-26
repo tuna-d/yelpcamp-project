@@ -4,12 +4,10 @@ const path = require("path")
 const bodyParser = require("body-parser")
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
-const catchAsync = require("./utils/catchAsync")
 const ExpressError = require("./utils/ExpressError")
-const { campgroundSchema, reviewSchema } = require("./validationSchemas")
 const mongoose = require("mongoose")
-const Campground = require("./models/campground")
-const Review = require("./models/review")
+const session = require("express-session")
+const flash = require("connect-flash")
 
 const campgroundRoutes = require("./routes/campgroundRoutes")
 const reviewRoutes = require("./routes/reviewRoutes")
@@ -32,6 +30,25 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(methodOverride("_method"))
 app.use(express.static(path.join(__dirname, "/public")))
+
+const sessionConfig = {
+  secret: "yelpCampSecret",
+  resave: false,
+  saveUninitialized: true,
+  httpOnly: true,
+  cookie: {
+    expires: Date.now() + 1000 * 3600 * 24 * 7,
+    maxAge: 1000 * 3600 * 24 * 7,
+  },
+}
+app.use(session(sessionConfig))
+app.use(flash())
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success")
+  res.locals.error = req.flash("error")
+  next()
+})
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)

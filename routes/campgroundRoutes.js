@@ -33,6 +33,10 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params
     const findCamp = await Campground.findById(id)
+    if (!findCamp) {
+      req.flash("error", "Can not find campground!")
+      return res.redirect("/campgrounds")
+    }
     res.render("campgrounds/edit", { findCamp })
   })
 )
@@ -42,6 +46,10 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params
     const findCamp = await Campground.findById(id).populate("reviews")
+    if (!findCamp) {
+      req.flash("error", "Can not find campground!")
+      return res.redirect("/campgrounds")
+    }
     res.render("campgrounds/show", { findCamp })
   })
 )
@@ -54,6 +62,7 @@ router.post(
       ...req.body.campground,
     })
     await campground.save()
+    req.flash("success", "Campgroud successfully saved!")
     res.redirect(`/campgrounds/${campground.id}`)
   })
 )
@@ -70,6 +79,7 @@ router.put(
       },
       { runValidators: true }
     )
+    req.flash("success", "Campgroud successfully saved!")
     res.redirect(`/campgrounds/${id}`)
   })
 )
@@ -79,6 +89,7 @@ router.delete(
   catchAsync(async (req, res) => {
     const { id } = req.params
     await Campground.findByIdAndDelete(id)
+    req.flash("success", "Campgroud successfully deleted!")
     res.redirect("/campgrounds")
   })
 )
