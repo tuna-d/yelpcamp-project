@@ -5,6 +5,7 @@ const { campgroundSchema } = require("../validationSchemas")
 const Campground = require("../models/campground")
 const catchAsync = require("../utils/catchAsync")
 const ExpressError = require("../utils/ExpressError")
+const { isLoggedIn } = require("../middleware")
 
 const validateCampground = (req, res, next) => {
   const { error } = campgroundSchema.validate(req.body)
@@ -24,12 +25,13 @@ router.get(
   })
 )
 
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/new")
 })
 
 router.get(
   "/:id/edit",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params
     const findCamp = await Campground.findById(id)
@@ -56,6 +58,7 @@ router.get(
 
 router.post(
   "/",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res, next) => {
     const campground = new Campground({
@@ -69,6 +72,7 @@ router.post(
 
 router.put(
   "/:id",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res) => {
     const { id } = req.params
