@@ -9,8 +9,12 @@
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><%= findCamp.location %></li>
+        <li class="list-group-item">
+          Submitted by <%= findCamp.author.username %>
+        </li>
         <li class="list-group-item">$<%= findCamp.price %>/night</li>
       </ul>
+      <% if(currentUser && findCamp.author.equals(currentUser.id)) {%>
       <div class="card-body">
         <a
           href="/campgrounds/<%= findCamp.id  %>/edit"
@@ -25,6 +29,7 @@
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>
+      <% } %>
     </div>
   </div>
   <div class="col-6">

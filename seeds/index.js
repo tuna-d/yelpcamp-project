@@ -24,6 +24,7 @@ const seedDb = async () => {
       image: `https://picsum.photos/400?random=${Math.random()}`,
       description: `${campDesc[randNumDesc]}`,
       price: `${Math.floor(Math.random() * 25) + 10}`,
+      author: "67e1b10f682c5167c6b67fcd",
     })
     await camp.save()
   }
