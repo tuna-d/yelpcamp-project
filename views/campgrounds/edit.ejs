@@ -2,11 +2,56 @@
 <div class="row">
   <h1 class="text-center">Edit Campground</h1>
   <div class="col-6 offset-3">
+    <div class="mb-3">
+      <div id="carouselIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+          <% findCamp.images.forEach((img, i) => {%>
+            <% if(findCamp.images.length > 1) {%>
+          <button
+            type="button"
+            data-bs-target="#carouselIndicators"
+            data-bs-slide-to="<%= i %>"
+            class="<%= i === 0 ? "active" : ""%>"
+            aria-current="true"
+          ></button>
+            <% } %>
+          <% }) %>
+        </div>
+        <div class="carousel-inner">
+          <% findCamp.images.forEach((img, i) => { %>
+          <div class="carousel-item <%= i === 0 ? "active" : "" %>">
+            <img src="<%= img.url %>" class="d-block w-100" alt="..." />
+          </div>
+          <% }) %>
+        </div>
+        <% if(findCamp.images.length > 1) {%>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselIndicators"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselIndicators"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+        <% } %>
+      </div>
+    </div>
     <form
       action="/campgrounds/<%= findCamp.id %>?_method=PUT"
       method="post"
       novalidate
       class="needs-validation"
+      enctype="multipart/form-data"
     >
       <div class="mb-3">
         <label class="form-label" for="title"
@@ -73,20 +118,21 @@
         />
         <div class="invalid-feedback">Campground location is required!</div>
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="image"
-          >Edit the image url of campground:</label
+            <div class="mb-3">
+        <label class="form-label" for="fileInput"
+          >Add more images for the campground:</label
         >
-        <input
-          class="form-control"
-          type="text"
-          name="campground[image]"
-          id="image"
-          value="<%= findCamp.image  %>"
-          required
-        />
-        <div class="invalid-feedback">Campground image is required!</div>
-      </div>
+        <div class="input-group mb-3">
+          <input
+            type="file"
+            class="form-control"
+            id="fileInput"
+            name="campground[images]"
+            multiple
+          />
+          <label class="input-group-text" for="fileInput">Upload</label>
+        </div>
+
       <button class="btn btn-info mb-3 text-light">Update</button>
     </form>
   </div>
