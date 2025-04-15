@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="/css/stars.css" />
 <div class="row">
   <div class="col-6">
-    <div>
       <div id="carouselIndicators" class="carousel slide">
         <div class="carousel-indicators">
           <% findCamp.images.forEach((img, i) => {%>
@@ -45,7 +44,7 @@
         </button>
         <% } %>
       </div>
-    </div>
+    
     <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title"><%= findCamp.title %></h5>
@@ -77,6 +76,8 @@
     </div>
   </div>
   <div class="col-6">
+    <div id="map" style="width: 636px; height: 357.88px;"></div>
+
     <div class="mb-3">
       <% if(currentUser) {%>
       <h2>Leave a Review</h2>
@@ -176,3 +177,10 @@
     <% } %>
   </div>
 </div>
+
+<script>
+  const mapboxToken = "<%- process.env.MAPBOX_TOKEN %>"
+  const campground =  <%- JSON.stringify(findCamp)  %>
+</script>
+
+<script src="/js/showPageMap.js"></script>

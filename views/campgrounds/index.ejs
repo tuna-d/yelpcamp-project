@@ -7,7 +7,17 @@
   <div class="row">
     <div class="col-md-4">
       <% if(camp.images.length > 0) {%>
-      <img src="<%= camp.images[0].url  %>" alt="" class="img-fluid" />
+      <img
+        src="<%= camp.images[0].url  %>"
+        alt="campground image"
+        class="img-fluid"
+      />
+      <% } else {%>
+      <img
+        src="https://res.cloudinary.com/dirdof2ca/image/upload/h_350,c_scale,ar_16:9/v1743866414/YelpCamp/csdhlgm7u7x15txzz0xx.jpg"
+        alt="campground image"
+        class="img-fluid"
+      />
       <% } %>
     </div>
     <div class="col-md-8">

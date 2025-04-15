@@ -49,6 +49,7 @@ module.exports.createCampground = async (req, res, next) => {
     url: file.path,
     fileName: file.filename,
   }))
+  campground.geometry = geocode.body.features[0].geometry
   campground.author = req.user._id
   await campground.save()
   req.flash("success", "Campgroud successfully saved!")
