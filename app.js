@@ -2,9 +2,9 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config()
 }
 const express = require("express")
-const port = 3000
 const path = require("path")
 const bodyParser = require("body-parser")
+const mongoSanitize = require("express-mongo-sanitize")
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
 const ExpressError = require("./utils/ExpressError")
@@ -35,6 +35,7 @@ app.set("views", path.join(__dirname, "/views"))
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(mongoSanitize())
 app.use(methodOverride("_method"))
 app.use(express.static(path.join(__dirname, "/public")))
 
@@ -65,10 +66,6 @@ app.use((req, res, next) => {
   next()
 })
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`)
-})
-
 app.get("/", (req, res) => {
   res.render("home")
 })
@@ -85,3 +82,9 @@ app.use((err, req, res, next) => {
   const { statusCode = 500 } = err
   res.status(statusCode).render("error", { err })
 })
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`)
+})
+
+const port = 3000
