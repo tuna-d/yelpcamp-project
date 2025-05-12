@@ -1,4 +1,5 @@
 const User = require("../models/user")
+const Campgroud = require("../models/campground")
 
 module.exports.renderRegisterUser = (req, res) => {
   res.render("users/register")
@@ -41,4 +42,15 @@ module.exports.logoutUser = (req, res, next) => {
     req.flash("success", "Successfully logged out.")
     res.redirect("/campgrounds")
   })
+}
+
+module.exports.showProfile = async (req, res) => {
+  const { userId } = req.params
+  const findUser = await User.findById(userId)
+  const userCamps = await Campgroud.find({ author: userId })
+  res.render("users/profile", { findUser, userCamps })
+}
+
+module.exports.editProfile = (req, res) => {
+  res.send("edit page")
 }

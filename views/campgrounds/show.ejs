@@ -53,7 +53,7 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><%= findCamp.location %></li>
         <li class="list-group-item">
-          Submitted by <%= findCamp.author.username %>
+          Submitted by <a href="/profile/<%= findCamp.author.id %>"><%= findCamp.author.username %></a>
         </li>
         <li class="list-group-item">$<%= findCamp.price %>/night</li>
       </ul>

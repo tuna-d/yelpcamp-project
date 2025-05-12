@@ -1,0 +1,67 @@
+<% layout("layouts/boilerplate") %>
+<div class="row">
+  <div class="col-2">
+    <div class="card h-auto">
+      <div class="card-body">
+        <h5 class="card-title"><%= findUser.username %></h5>
+        <% if(currentUser && currentUser.id === findUser.id) {%>
+        <button type="button" class="btn btn-outline-info">
+          <a
+            href="/profile/<%= findUser.id %>/edit"
+            class="text-decoration-none text-reset"
+            >Edit Profile</a
+          >
+        </button>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  <div class="col-10">
+    <% if(userCamps.length !== 0) {%>
+    <h2 class="mb-3"><%= findUser.username %>'s Adventures</h2>
+    <% for(let camp of userCamps) {%>
+    <div class="card mb-3">
+      <div class="row">
+        <div class="col-md-4">
+          <% if(camp.images.length > 0) {%>
+          <img
+            src="<%= camp.images[0].url  %>"
+            alt="campground image"
+            class="img-fluid"
+          />
+          <% } else {%>
+          <img
+            src="https://res.cloudinary.com/dirdof2ca/image/upload/h_350,c_scale,ar_16:9/v1743866414/YelpCamp/csdhlgm7u7x15txzz0xx.jpg"
+            alt="campground image"
+            class="img-fluid"
+          />
+          <% } %>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title"><%= camp.title %></h5>
+            <p class="card-text"><%= camp.description %></p>
+            <p class="card-text">
+              <small class="text-body-secondary"><%= camp.location %></small>
+            </p>
+            <a
+              href="/campgrounds/<%= camp.id %>"
+              class="btn btn-outline-primary"
+              >View Details</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %> <% } else {%>
+    <h3>
+      Looks like <%= findUser.username %> hasn't gone on any adventures yet!
+    </h3>
+    <button type="button" class="btn btn-success">
+      <a href="/campgrounds/new" class="text-decoration-none text-reset"
+        >Add New Campground Now!</a
+      >
+    </button>
+    <% } %>
+  </div>
+</div>

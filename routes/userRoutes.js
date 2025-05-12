@@ -3,7 +3,7 @@ const router = express.Router()
 const User = require("../models/user")
 const catchAsync = require("../utils/catchAsync")
 const passport = require("passport")
-const { storeReturnTo } = require("../middleware")
+const { storeReturnTo, isUsersProfile, isLoggedIn } = require("../middleware")
 
 const user = require("../controllers/user")
 router
@@ -24,5 +24,13 @@ router
   )
 
 router.get("/logout", user.logoutUser)
+
+router.get("/profile/:userId", user.showProfile)
+router.get(
+  "/profile/:userId/edit",
+  isLoggedIn,
+  isUsersProfile,
+  user.editProfile
+)
 
 module.exports = router
