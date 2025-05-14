@@ -1,0 +1,60 @@
+<% layout("layouts/boilerplate") %>
+<div class="container d-flex justify-content-center align-items-center mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow">
+        <div class="card-body">
+          <% if(!findUser.profilePic) {%>
+          <img
+            src="https://res.cloudinary.com/dirdof2ca/image/upload/v1747238909/blank-profile-picture-973460_1920_usz8ox.png"
+            alt="profile picture"
+            class="card-img"
+          />
+          <% } else {%>
+          <img
+            src="<%= findUser.profilePic.url %>"
+            alt="profile picture"
+            class="card-img"
+          />
+          <% } %>
+
+          <form
+            action="/profile/<%= findUser.id %>?_method=PUT"
+            method="POST"
+            novalidate
+            class="needs-validation mt-3"
+            enctype="multipart/form-data"
+          >
+            <label for="profilePicInput" class="mb-2"
+              >Upload a profile picture:</label
+            >
+            <div class="input-group mb-3">
+              <input
+                type="file"
+                class="form-control"
+                id="profilePicInput"
+                name="profilePic"
+              />
+              <label class="input-group-text" for="inputGroupFile02"
+                >Upload</label
+              >
+            </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">Change username:</label>
+              <input
+                type="text"
+                class="form-control"
+                name="username"
+                id="username"
+                value="<%= findUser.username %>"
+                required
+              />
+              <div class="invalid-feedback">Username is required!</div>
+            </div>
+            <button class="btn btn-info text-light">Update</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

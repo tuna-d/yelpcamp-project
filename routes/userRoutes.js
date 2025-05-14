@@ -5,6 +5,10 @@ const catchAsync = require("../utils/catchAsync")
 const passport = require("passport")
 const { storeReturnTo, isUsersProfile, isLoggedIn } = require("../middleware")
 
+const multer = require("multer")
+const { storage } = require("../cloudinary")
+const upload = multer({ storage })
+
 const user = require("../controllers/user")
 router
   .route("/register")
@@ -25,12 +29,20 @@ router
 
 router.get("/logout", user.logoutUser)
 
-router.get("/profile/:userId", user.showProfile)
 router.get(
   "/profile/:userId/edit",
   isLoggedIn,
   isUsersProfile,
-  user.editProfile
+  catchAsync(user.editProfileForm)
 )
+router
+  .route("/profile/:userId")
+  .get(catchAsync(user.showProfile))
+  .put(
+    isLoggedIn,
+    isUsersProfile,
+    upload.single("profilePic"),
+    catchAsync(user.editProfile)
+  )
 
 module.exports = router

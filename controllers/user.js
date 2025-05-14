@@ -51,6 +51,31 @@ module.exports.showProfile = async (req, res) => {
   res.render("users/profile", { findUser, userCamps })
 }
 
-module.exports.editProfile = (req, res) => {
-  res.send("edit page")
+module.exports.editProfileForm = async (req, res) => {
+  const { userId } = req.params
+  const findUser = await User.findById(userId)
+  res.render("users/edit", { findUser })
+}
+
+module.exports.editProfile = async (req, res) => {
+  const { userId } = req.params
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {
+      username: req.body.username,
+    },
+    { runValidators: true }
+  )
+  if (req.file) {
+    user.profilePic = {
+      url: req.file.path.replace(
+        "/upload",
+        "/upload/c_thumb,g_face,h_164,w_164"
+      ),
+      filename: req.file.filename,
+    }
+  }
+  await user.save()
+  console.log(user)
+  res.redirect(`/profile/${userId}`)
 }
