@@ -67,3 +67,12 @@ module.exports.isUsersProfile = (req, res, next) => {
   }
   next()
 }
+
+module.exports.preventSelfFollow = (req, res, next) => {
+  const { userId } = req.params
+  if (userId === req.user.id) {
+    req.flash("error", "Sorry, you're not allowed to do that.")
+    return res.redirect(`/profile/${userId}`)
+  }
+  next()
+}

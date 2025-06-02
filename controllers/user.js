@@ -1,5 +1,6 @@
 const User = require("../models/user")
 const Campgroud = require("../models/campground")
+const Follow = require("../models/follow")
 
 module.exports.renderRegisterUser = (req, res) => {
   res.render("users/register")
@@ -48,7 +49,25 @@ module.exports.showProfile = async (req, res) => {
   const { userId } = req.params
   const findUser = await User.findById(userId)
   const userCamps = await Campgroud.find({ author: userId })
-  res.render("users/profile", { findUser, userCamps })
+  const following = await Follow.find({ follower: userId }).populate(
+    "following"
+  )
+  const followers = await Follow.find({ following: userId }).populate(
+    "follower"
+  )
+  const isFollowing = req.user
+    ? await Follow.exists({
+        follower: req.user.id,
+        following: userId,
+      })
+    : null
+  res.render("users/profile", {
+    findUser,
+    userCamps,
+    isFollowing,
+    followers,
+    following,
+  })
 }
 
 module.exports.editProfileForm = async (req, res) => {
@@ -78,4 +97,42 @@ module.exports.editProfile = async (req, res) => {
   await user.save()
   console.log(user)
   res.redirect(`/profile/${userId}`)
+}
+
+module.exports.follow = async (req, res) => {
+  const follower = req.user.id
+  const following = req.params.userId
+  const follow = await new Follow({ follower, following })
+  await follow.save()
+  const followingUsername = await User.findById(following)
+  req.flash("success", `You're now following ${followingUsername.username}!`)
+  res.redirect(`/profile/${following}`)
+}
+
+module.exports.unfollow = async (req, res) => {
+  const follower = req.user.id
+  const following = req.params.userId
+  await Follow.findOneAndDelete({
+    follower,
+    following,
+  })
+  res.redirect(`/profile/${following}`)
+}
+
+module.exports.showFollowers = async (req, res) => {
+  const { userId } = req.params
+  const findUser = await User.findById(userId)
+  const following = await Follow.find({ follower: userId }).populate(
+    "following"
+  )
+  const followers = await Follow.find({ following: userId }).populate(
+    "follower"
+  )
+  const isFollowing = req.user
+    ? await Follow.exists({
+        follower: req.user.id,
+        following: userId,
+      })
+    : null
+  res.render("users/followers", { findUser, isFollowing, followers, following })
 }

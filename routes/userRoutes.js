@@ -3,7 +3,12 @@ const router = express.Router()
 const User = require("../models/user")
 const catchAsync = require("../utils/catchAsync")
 const passport = require("passport")
-const { storeReturnTo, isUsersProfile, isLoggedIn } = require("../middleware")
+const {
+  storeReturnTo,
+  isUsersProfile,
+  isLoggedIn,
+  preventSelfFollow,
+} = require("../middleware")
 
 const multer = require("multer")
 const { storage } = require("../cloudinary")
@@ -29,12 +34,24 @@ router
 
 router.get("/logout", user.logoutUser)
 
+router
+  .route("/profile/:userId/follow")
+  .get(isLoggedIn, user.showFollowers)
+  .post(isLoggedIn, preventSelfFollow, catchAsync(user.follow))
+
+router.delete(
+  "/profile/:userId/unfollow",
+  isLoggedIn,
+  catchAsync(user.unfollow)
+)
+
 router.get(
   "/profile/:userId/edit",
   isLoggedIn,
   isUsersProfile,
   catchAsync(user.editProfileForm)
 )
+
 router
   .route("/profile/:userId")
   .get(catchAsync(user.showProfile))
