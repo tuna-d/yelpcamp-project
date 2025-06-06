@@ -11,6 +11,11 @@ module.exports.registerUser = async (req, res, next) => {
     const { username, email, password } = req.body
     const user = await new User({ username, email })
     const registeredUser = await User.register(user, password)
+    registeredUser.profilePic = {
+      url: "https://res.cloudinary.com/dirdof2ca/image/upload/c_thumb,g_face,h_164,w_164/v1747238909/blank-profile-picture-973460_1920_usz8ox.png",
+      filename: "default",
+    }
+    await registeredUser.save()
     req.login(registeredUser, (err) => {
       if (err) {
         return next(err)
@@ -116,7 +121,10 @@ module.exports.unfollow = async (req, res) => {
     follower,
     following,
   })
-  res.redirect(`/profile/${following}`)
+  const { source } = req.query
+  source === "follow_list"
+    ? res.redirect(`/profile/${follower}/follow`)
+    : res.redirect(`/profile/${following}`)
 }
 
 module.exports.showFollowers = async (req, res) => {
