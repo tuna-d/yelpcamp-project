@@ -1,9 +1,23 @@
 mapboxgl.accessToken = mapboxToken
+const settings = {
+  mobileView: {
+    center: [-103.5917, 40.6699],
+    zoom: 2,
+  },
+  desktopView: {
+    center: [-103.5917, 40.6699],
+    zoom: 3,
+  },
+}
+
+const isMobileView = window.innerWidth <= 767
+const mapSettings = isMobileView ? settings.mobileView : settings.desktopView
+
 const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/light-v11",
-  center: [-103.5917, 40.6699],
-  zoom: 3,
+  center: mapSettings.center,
+  zoom: mapSettings.zoom,
 })
 
 map.on("load", () => {

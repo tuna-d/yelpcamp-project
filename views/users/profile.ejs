@@ -1,8 +1,8 @@
 <% layout("layouts/boilerplate") %>
 
 <div class="row">
-  <div class="col-2">
-    <div class="card h-auto">
+  <div class="col-xl-2 col-md-4">
+    <div class="card h-auto mb-3 mb-xl-0">
       <a
         class="text-decoration-none text-black"
         href="/profile/<%= findUser.id %>"
@@ -65,7 +65,7 @@
     </div>
   </div>
 
-  <div class="col-10">
+  <div class="col-xl-10 col-md-8">
     <% if (userCamps.length !== 0) { %>
     <h2 class="mb-3"><%= findUser.username %>'s Adventures</h2>
     <% for (let camp of userCamps) { %>

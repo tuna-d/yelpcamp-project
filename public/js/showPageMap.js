@@ -17,4 +17,10 @@ const marker = new mapboxgl.Marker({
   .setPopup(popup)
   .addTo(map)
 
+map.on("load", function () {
+  window.addEventListener("resize", function () {
+    map.resize()
+  })
+})
+
 map.addControl(new mapboxgl.NavigationControl())

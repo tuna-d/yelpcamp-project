@@ -1,7 +1,8 @@
 <% layout("layouts/boilerplate") %>
 
 <div class="row">
-  <div class="col-2">
+  <!-- Profile Card Section -->
+  <div class="col-lg-2 col-sm-4 col-12 mb-4">
     <div class="card h-auto">
       <a
         class="text-decoration-none text-black"
@@ -10,7 +11,7 @@
         <img
           src="<%= findUser.profilePic.url %>"
           alt="profile picture"
-          class="card-img"
+          class="card-img img-fluid"
         />
       </a>
 
@@ -19,23 +20,26 @@
           <a
             class="text-decoration-none text-black"
             href="/profile/<%= findUser.id %>"
-            ><%= findUser.username %></a
           >
+            <%= findUser.username %>
+          </a>
         </h4>
         <div>
           <p>
             <a
               class="text-decoration-none text-black"
               href="/profile/<%= findUser.id %>/follow"
-              ><b><%= following.length %></b> Following</a
             >
+              <b><%= following.length %></b> Following
+            </a>
           </p>
           <p>
             <a
               class="text-decoration-none text-black"
               href="/profile/<%= findUser.id %>/follow"
-              ><b><%= followers.length %></b> Followers</a
             >
+              <b><%= followers.length %></b> Followers
+            </a>
           </p>
         </div>
 
@@ -65,72 +69,80 @@
     </div>
   </div>
 
-  <div class="col-5">
-    <h2>Following:</h2>
-    <% for(let flg of following) {%>
-    <div class="card mb-3">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img
-            src="<%= flg.following.profilePic.url%>"
-            class="img-fluid rounded-start"
-            alt="profile picture"
-          />
-        </div>
-        <div class="col-md-8 d-flex align-items-center">
-          <div class="card-body">
-            <h5><%= flg.following.username %></h5>
-            <div class="d-flex">
-              <button class="btn btn-outline-primary btn-sm">
-                <a
-                  href="/profile/<%= flg.following.id %>/"
-                  class="text-decoration-none text-reset"
-                  >View Profile</a
-                >
-              </button>
-              <% if (currentUser && currentUser.id === findUser.id) { %>
-              <form
-                action="/profile/<%= flg.following.id %>/unfollow?_method=DELETE&source=follow_list"
-                method="post"
-              >
-                <button class="btn btn-outline-danger btn-sm ms-3">
-                  Unfollow
-                </button>
-              </form>
-              <% } %>
+  <!-- Following and Followers Section -->
+  <div class="col-lg-10 col-sm-8 col-12">
+    <div class="row">
+      <!-- Following List -->
+      <div class="col-lg-6 col-12 mb-4">
+        <h2>Following:</h2>
+        <% for(let flg of following) { %>
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="<%= flg.following.profilePic.url %>"
+                class="img-fluid rounded-start"
+                alt="profile picture"
+              />
+            </div>
+            <div class="col-md-8 d-flex align-items-center">
+              <div class="card-body">
+                <h5><%= flg.following.username %></h5>
+                <div class="d-flex flex-md-row">
+                  <button class="btn btn-outline-primary btn-sm">
+                    <a
+                      href="/profile/<%= flg.following.id %>/"
+                      class="text-decoration-none text-reset"
+                      >View Profile</a
+                    >
+                  </button>
+                  <% if (currentUser && currentUser.id === findUser.id) { %>
+                  <form
+                    action="/profile/<%= flg.following.id %>/unfollow?_method=DELETE&source=follow_list"
+                    method="post"
+                  >
+                    <button class="btn btn-outline-danger btn-sm ms-3">
+                      Unfollow
+                    </button>
+                  </form>
+                  <% } %>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <% } %>
       </div>
-    </div>
-    <% } %>
-  </div>
-  <div class="col-5">
-    <h2>Followers:</h2>
-    <% for(let flg of followers) {%>
-    <div class="card mb-3">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img
-            src="<%= flg.follower.profilePic.url%>"
-            class="img-fluid rounded-start"
-            alt="profile picture"
-          />
-        </div>
-        <div class="col-md-8 d-flex align-items-center">
-          <div class="card-body">
-            <h5><%= flg.follower.username %></h5>
-            <button class="btn btn-outline-primary btn-sm">
-              <a
-                href="/profile/<%= flg.follower.id %>/"
-                class="text-decoration-none text-reset"
-                >View Profile</a
-              >
-            </button>
+
+      <!-- Followers List -->
+      <div class="col-lg-6 col-12 mb-4">
+        <h2>Followers:</h2>
+        <% for(let flg of followers) { %>
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="<%= flg.follower.profilePic.url %>"
+                class="img-fluid rounded-start"
+                alt="profile picture"
+              />
+            </div>
+            <div class="col-md-8 d-flex align-items-center">
+              <div class="card-body">
+                <h5><%= flg.follower.username %></h5>
+                <button class="btn btn-outline-primary btn-sm">
+                  <a
+                    href="/profile/<%= flg.follower.id %>/"
+                    class="text-decoration-none text-reset"
+                    >View Profile</a
+                  >
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+        <% } %>
       </div>
     </div>
-    <% } %>
   </div>
 </div>

@@ -4,6 +4,41 @@
 }
 
 .show-map {
-  width: 636px;
+  width: 100%;
   height: 357.88px;
+}
+
+@media (max-width: 576px) {
+  .show-map {
+    width: 100%;
+    height: 50vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .show-map {
+    width: 90%;
+    height: 40vh;
+  }
+}
+
+@media (max-width: 992px) {
+  .show-map {
+    width: 100%;
+    height: 35vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  .show-map {
+    width: 546px;
+    height: 307.23px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .show-map {
+    width: 636px;
+    height: 357.88px;
+  }
 }

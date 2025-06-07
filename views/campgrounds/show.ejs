@@ -1,7 +1,7 @@
 <% layout("layouts/boilerplate") %>
 <link rel="stylesheet" href="/css/stars.css" />
 <div class="row">
-  <div class="col-6">
+  <div class="col-xl-6">
       <div id="carouselIndicators" class="carousel slide">
         <div class="carousel-indicators">
           <% findCamp.images.forEach((img, i) => {%>
@@ -75,8 +75,8 @@
       <% } %>
     </div>
   </div>
-  <div class="col-6">
-    <div id="map" class="show-map"></div>
+  <div class="col-xl-6">
+    <div id="map" class="show-map mw-50"></div>
 
     <div class="mb-3">
       <% if(currentUser) {%>
