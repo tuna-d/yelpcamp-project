@@ -10,18 +10,21 @@ const ejsMate = require("ejs-mate")
 const ExpressError = require("./utils/ExpressError")
 const mongoose = require("mongoose")
 const session = require("express-session")
+const MongoStore = require("connect-mongo")
 const flash = require("connect-flash")
 const passport = require("passport")
 const passportLocalStrategy = require("passport-local")
 const User = require("./models/user")
 const helmet = require("helmet")
+const dbUrl = process.env.DB_URL
+const localDbUrl = "mongodb://127.0.0.1:27017/yelpCamp"
 
 const campgroundRoutes = require("./routes/campgroundRoutes")
 const reviewRoutes = require("./routes/reviewRoutes")
 const userRoutes = require("./routes/userRoutes")
 const { contentSecurityPolicy } = require("helmet")
 
-mongoose.connect("mongodb://127.0.0.1:27017/yelpCamp")
+mongoose.connect(localDbUrl)
 
 const db = mongoose.connection
 db.on("error", console.error.bind(console, "connection error:"))
@@ -87,7 +90,18 @@ app.use(
   })
 )
 
+const store = MongoStore.create({
+  mongoUrl: localDbUrl,
+  secret: "yelpCampSecret",
+  touchAfter: 24 * 3600,
+})
+
+store.on("error", function (e) {
+  console.log("Session store error!", e)
+})
+
 const sessionConfig = {
+  store,
   name: "dln_ss",
   secret: "yelpCampSecret",
   resave: false,
