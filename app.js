@@ -17,6 +17,7 @@ const passportLocalStrategy = require("passport-local")
 const User = require("./models/user")
 const helmet = require("helmet")
 const dbUrl = process.env.DB_URL
+const secret = process.env.SECRET
 const localDbUrl = "mongodb://127.0.0.1:27017/yelpCamp"
 
 const campgroundRoutes = require("./routes/campgroundRoutes")
@@ -92,7 +93,7 @@ app.use(
 
 const store = MongoStore.create({
   mongoUrl: localDbUrl,
-  secret: "yelpCampSecret",
+  secret: secret,
   touchAfter: 24 * 3600,
 })
 
@@ -103,7 +104,7 @@ store.on("error", function (e) {
 const sessionConfig = {
   store,
   name: "dln_ss",
-  secret: "yelpCampSecret",
+  secret: secret,
   resave: false,
   saveUninitialized: true,
   httpOnly: true,
