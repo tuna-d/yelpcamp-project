@@ -25,7 +25,10 @@ const reviewRoutes = require("./routes/reviewRoutes")
 const userRoutes = require("./routes/userRoutes")
 const { contentSecurityPolicy } = require("helmet")
 
-mongoose.connect(dbUrl)
+mongoose.connect(dbUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
 
 const db = mongoose.connection
 db.on("error", console.error.bind(console, "connection error:"))
@@ -92,7 +95,7 @@ app.use(
 )
 
 const store = MongoStore.create({
-  mongoUrl: localDbUrl,
+  mongoUrl: dbUrl,
   secret: secret,
   touchAfter: 24 * 3600,
 })
@@ -132,7 +135,7 @@ app.use((req, res, next) => {
 })
 
 app.get("/", (req, res) => {
-  res.render("home")
+  return res.render("home")
 })
 
 app.use("/campgrounds", campgroundRoutes)
@@ -144,6 +147,7 @@ app.all("*", (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
+  console.error("Render error:", err)
   const { statusCode = 500 } = err
   res.status(statusCode).render("error", { err })
 })

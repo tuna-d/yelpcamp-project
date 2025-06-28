@@ -3,7 +3,7 @@ const Campgroud = require("../models/campground")
 const Follow = require("../models/follow")
 
 module.exports.renderRegisterUser = (req, res) => {
-  res.render("users/register")
+  return res.render("users/register")
 }
 
 module.exports.registerUser = async (req, res, next) => {
@@ -21,23 +21,23 @@ module.exports.registerUser = async (req, res, next) => {
         return next(err)
       }
       req.flash("success", "Welcome to YelpCamp!")
-      res.redirect("/campgrounds")
+      return res.redirect("/campgrounds")
     })
   } catch (e) {
     req.flash("error", e.message)
-    res.redirect("/register")
+    return res.redirect("/register")
   }
 }
 
 module.exports.renderLogin = (req, res) => {
-  res.render("users/login")
+  return res.render("users/login")
 }
 
 module.exports.loginUser = (req, res) => {
   req.flash("success", "Welcome back.")
   const redirectUrl = res.locals.returnTo || "/campgrounds"
   delete req.session.returnTo
-  res.redirect(redirectUrl)
+  return res.redirect(redirectUrl)
 }
 
 module.exports.logoutUser = (req, res, next) => {
@@ -46,7 +46,7 @@ module.exports.logoutUser = (req, res, next) => {
       return next(e)
     }
     req.flash("success", "Successfully logged out.")
-    res.redirect("/campgrounds")
+    return res.redirect("/campgrounds")
   })
 }
 
@@ -66,7 +66,7 @@ module.exports.showProfile = async (req, res) => {
         following: userId,
       })
     : null
-  res.render("users/profile", {
+  return res.render("users/profile", {
     findUser,
     userCamps,
     isFollowing,
@@ -78,7 +78,7 @@ module.exports.showProfile = async (req, res) => {
 module.exports.editProfileForm = async (req, res) => {
   const { userId } = req.params
   const findUser = await User.findById(userId)
-  res.render("users/edit", { findUser })
+  return res.render("users/edit", { findUser })
 }
 
 module.exports.editProfile = async (req, res) => {
@@ -101,7 +101,7 @@ module.exports.editProfile = async (req, res) => {
   }
   await user.save()
   console.log(user)
-  res.redirect(`/profile/${userId}`)
+  return res.redirect(`/profile/${userId}`)
 }
 
 module.exports.follow = async (req, res) => {
@@ -111,7 +111,7 @@ module.exports.follow = async (req, res) => {
   await follow.save()
   const followingUsername = await User.findById(following)
   req.flash("success", `You're now following ${followingUsername.username}!`)
-  res.redirect(`/profile/${following}`)
+  return res.redirect(`/profile/${following}`)
 }
 
 module.exports.unfollow = async (req, res) => {
@@ -142,5 +142,10 @@ module.exports.showFollowers = async (req, res) => {
         following: userId,
       })
     : null
-  res.render("users/followers", { findUser, isFollowing, followers, following })
+  return res.render("users/followers", {
+    findUser,
+    isFollowing,
+    followers,
+    following,
+  })
 }
