@@ -25,10 +25,7 @@ const reviewRoutes = require("./routes/reviewRoutes")
 const userRoutes = require("./routes/userRoutes")
 const { contentSecurityPolicy } = require("helmet")
 
-mongoose.connect(dbUrl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(dbUrl)
 
 const db = mongoose.connection
 db.on("error", console.error.bind(console, "connection error:"))
